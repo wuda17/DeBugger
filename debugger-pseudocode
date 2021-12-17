@@ -1,0 +1,143 @@
+Program Start
+
+define createBoard
+    For each number of row in board
+        For each number of column in board
+            Set boardSize the number of rows and columns 
+            and set each board square to their default state
+
+define computeNeighbours
+    For each number of row in board
+        For each number of column in board
+                if board Position (row, column) is occupied with bomb THEN
+                    For currentBoardRow - 1 : currentBoardrow + 1
+                        For currentBoardColumn - 1 : currentBoardColumn + 1
+                            if board Position (row, column) is NOT occupied with bomb Then
+                                increment surroundingNeighbours by 1 
+
+define cleanBoard
+    empty the board
+
+define printBoard
+    For each number of row in board
+        For each number of column in board
+            if board Position (row, column) = flagged THEN
+                OUTPUT "M"
+            if board Position (row, column) = hidden THEN
+                OUTPUT "*"
+            else
+                OUTPUT surrounding neighbours
+
+define hideBoard
+    For each number of row in board
+        For each number of column in board
+            set board Position ( row, column ) as hidden
+
+define reveal
+    if USERINPUT is flagged square THEN
+        return case 1 
+    else if USERINPUT is hidden square and neighbours revealed sequare is 0 THEN
+        return case 2 
+    else if USERINPUT is neighbours revealed square is bomb THEN
+        return case 9
+    else
+        return case 0 
+
+define mark
+    if USERINPUT places flag THEN
+        return case 0
+    else if USERINPUT is not flag and not hidden THEN
+        return case 2
+
+define checkIfGameisWon
+    for each number of row in board
+        for each number of column in board
+            if board Position ( row, column ) is a bomb THEN
+                if board Position ( row, column )is not flagged THEN   
+                    set marked to False
+            else if board Position ( row, column) is not a bomb THEN
+                if state of square is hidden THEN
+                    set unmasked to True
+                else if state of square is flagged THEN
+                    set GameisWon as False
+            
+    if unmasked is False and marked is True THEN
+        set GameisWon as True
+    else if unmasked is True and marked is False THEN
+        set GameisWon as True
+    else if unmasked is True and marke is True THEN
+        set GameisWon as True
+    else
+        set GameisWon as False
+
+define startGame 
+    if USERINPUT for rows is bigger Than 1 and less than maximum number of rows
+        set row as USERINPUT
+        if USERINPUT for columns is bigger Than 1 and less than maximum number of columns
+            set column as USERINPUT
+            if USERINPUT for bombs is bigger Than 1 and less than size of board
+                set bomb as USERINPUT
+
+    cleanboard()
+    createboard()
+    placeMines()
+    computeNeighbours()
+    hideboard()
+
+define getAction()
+    OUTPUT "ENTER YOUR MOVE"
+    set action as USERINPUT
+
+define actionMark()
+    if USERINPUT is less than number of rows THEN
+        set row of square to mark as USERINPUT
+    if USERINPUT is less than number of columns THEN
+        set row of column to mark as USERINPUT
+    if USERINPUT is already marked on board THEN
+        OUTPUT "Positions already revealed. Cannot be marked"
+
+define placeMines()
+
+    while number of bombs placed is less Than bombs
+        set row of bomb as randomly generated from (0 , rows)
+        set column of bomb as randomly generated from (0, columns)
+
+        Increment number of bombs placed by 1 
+
+define actionShow()
+        set USERINPUT as row of square to reveal 
+        set USERINPUT as column of square to reveal 
+
+        if row of square to reveal is bigger than row or column of square to reveal is bigger than column
+            OUTPUT "Location entered is not on matrix"
+        else if square to reavel (row, column) is flagged THEN
+            OUTPUT "Location is marked, please pick another one"
+        else if square to reveal (row, column) has a bomb THEN
+            OUTPUT "You hit a mine! Game over"
+            printBoard()
+            OUTPUT "Starting a new game"
+            startgame()
+
+define game()
+
+    startgame()
+    if USERINPUT is 'S' THEN
+        actionShow()
+    else if USERINPUT is 'M' THEN
+        actionmark()
+    else if USERINPUT is 'R' THEN
+        OUTPUT "Restarting the game"
+        startGame()
+    
+    printBoard()
+
+    if GameisWon is set as True THEN:
+        OUTPUT "YOU WON"
+        For each number of row in board
+            For each number of column in board
+                set board Position ( row, column ) as revealed
+        
+        printBoard()
+        OUTPUT "restarting game"
+        startGame()
+        printboard()
